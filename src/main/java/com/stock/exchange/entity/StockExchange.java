@@ -2,12 +2,6 @@ package com.stock.exchange.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.Id;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 @Data
 @Entity
 @Table(name ="STOCK_EXCHANGE")
@@ -24,8 +18,5 @@ public class StockExchange {
     private String description;
 
     @Column
-    private BigDecimal currentPrice;
-
-    @UpdateTimestamp
-    private LocalDateTime lastUpdate;
+    private boolean liveInMarket;
 }

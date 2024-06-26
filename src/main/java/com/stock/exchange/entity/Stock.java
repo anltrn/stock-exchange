@@ -2,13 +2,14 @@ package com.stock.exchange.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name ="STOCK")
 public class Stock {
-
     @Id
     @Column
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -21,5 +22,8 @@ public class Stock {
     private String description;
 
     @Column
-    private boolean liveInMarket;
+    private BigDecimal currentPrice;
+
+    @UpdateTimestamp
+    private LocalDateTime lastUpdate;
 }
