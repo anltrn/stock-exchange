@@ -1,0 +1,47 @@
+# Stock Exchange Service
+
+This project is a Stock Exchange Service implemented in Java using Spring Boot and Gradle. It provides a set of RESTful APIs to manage stocks and stock exchanges.
+
+The data is stored in the `STOCK` and `STOCK_EXCHANGE` tables in an H2 database. During the bootstrap process, sample transaction data will be inserted. For performance optimization, indexes (`idx_stock_name` on `STOCK` table and `idx_stock_exchange_name` on `STOCK_EXCHANGE` table) have been created.
+
+## Stock Controller API Endpoints
+
+The `StockController` class manages operations related to stocks in the system. It integrates with the `StockService` to perform business logic operations and manages HTTP requests and responses for the following endpoints:
+
+- `DELETE /api/v1/stock/{id}`: Deletes a stock by its ID.
+- `PATCH /api/v1/stock`: Updates the price of a stock.
+- `POST /api/v1/stock`: Creates a new stock.
+
+## Stock Exchange Controller API Endpoints
+
+The `StockExchangeController` class manages operations related to stock exchanges in the system. It integrates with the `StockExchangeService` to perform business logic operations and handles HTTP requests and responses for the following endpoints:
+
+- `DELETE /api/v1/stock-exchange/{name}?stockName={stockName}`: Deletes a stock from a specific stock exchange.
+- `POST /api/v1/stock-exchange/{name}?stockName={stockName}`: Adds a stock to a specific stock exchange.
+- `GET /api/v1/stock-exchange/{name}`: Retrieves all stocks associated with a specific stock exchange.
+
+## Installation
+
+To build and run the service, use the following command:
+
+```bash
+docker compose up --build
+```
+
+## API Documentation
+
+You can access the Swagger API documentation and usage at the following URL:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+## H2 Database
+
+You can log in to the H2 database console at the following URL:
+
+```
+http://localhost:8080/h2-console/login.do
+```
+
+The username and password can be found in the `application.properties` file.
