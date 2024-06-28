@@ -18,15 +18,15 @@ INSERT INTO STOCK ( name, description, current_price, last_update)
 VALUES ('TCELL', 'TCELL Inc.', 60.0, '2023-06-01 10:00:00');
 INSERT INTO STOCK ( name, description, current_price, last_update)
 VALUES ('TPRS', 'TPRS Inc.', 70.0, '2023-06-01 10:00:00');
-INSERT INTO STOCK_EXCHANGE_STOCKS (stock_exchange_id, stock_id)
+INSERT INTO STOCK_EXCHANGE_STOCK (stock_exchange_id, stock_id)
 VALUES (1, 1);
-INSERT INTO STOCK_EXCHANGE_STOCKS (stock_exchange_id, stock_id)
+INSERT INTO STOCK_EXCHANGE_STOCK (stock_exchange_id, stock_id)
 VALUES (1, 2);
-INSERT INTO STOCK_EXCHANGE_STOCKS (stock_exchange_id, stock_id)
+INSERT INTO STOCK_EXCHANGE_STOCK (stock_exchange_id, stock_id)
 VALUES (2, 1);
-INSERT INTO STOCK_EXCHANGE_STOCKS (stock_exchange_id, stock_id)
+INSERT INTO STOCK_EXCHANGE_STOCK (stock_exchange_id, stock_id)
 VALUES (2, 2);
-INSERT INTO STOCK_EXCHANGE_STOCKS (stock_exchange_id, stock_id)
+INSERT INTO STOCK_EXCHANGE_STOCK (stock_exchange_id, stock_id)
 VALUES (3, 1);
-INSERT INTO STOCK_EXCHANGE_STOCKS (stock_exchange_id, stock_id)
+INSERT INTO STOCK_EXCHANGE_STOCK (stock_exchange_id, stock_id)
 VALUES (3, 2);

@@ -1,17 +1,24 @@
 package com.stock.exchange.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data;
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
-@Table(name ="STOCK_EXCHANGE")
+@Table(name = "STOCK_EXCHANGE")
 public class StockExchange {
     @Id
     @Column
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -19,4 +26,10 @@ public class StockExchange {
 
     @Column
     private boolean liveInMarket;
+
+    @ManyToMany
+    @JoinTable(name = "stock_exchange_stock",
+            joinColumns = {@JoinColumn(name = "stock_exchange_id")}, inverseJoinColumns = {@JoinColumn(name = "stock_id")})
+    @JsonIgnoreProperties("stockExchanges")
+    private Set<Stock> stocks = new HashSet<>();
 }

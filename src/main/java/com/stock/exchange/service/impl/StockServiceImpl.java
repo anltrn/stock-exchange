@@ -1,18 +1,17 @@
 package com.stock.exchange.service.impl;
 
-import com.stock.exchange.dao.StockExchangeStocksRepository;
+import com.stock.exchange.dao.StockExchangeRepository;
 import com.stock.exchange.dao.StockRepository;
 import com.stock.exchange.entity.Stock;
-import com.stock.exchange.entity.StockExchangeStocks;
+import com.stock.exchange.entity.StockExchange;
 import com.stock.exchange.model.StockCreateRequest;
 import com.stock.exchange.model.StockUpdateRequest;
 import com.stock.exchange.service.StockService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -21,19 +20,24 @@ public class StockServiceImpl implements StockService {
     @Autowired
     private StockRepository stockRepository;
     @Autowired
-    private StockExchangeStocksRepository stockExchangeStocksRepository;
+    private StockExchangeRepository stockExchangeRepository;
+
     @Override
     public void deleteStock(Long id) {
-        List<StockExchangeStocks> stockExchangeStocks =stockExchangeStocksRepository.findByStockId(id).orElse(null);
-        List<Long> targetLongList = stockExchangeStocks.stream()
-                .map(stock -> stock.getId())
-                .collect(Collectors.toList());
-        stockExchangeStocksRepository.deleteAllById(targetLongList);
+        Stock stock = stockRepository.findById(id).orElseThrow(()
+                -> new EntityNotFoundException("Stock not found with id: " + id));
+        for(StockExchange stockExchange : stock.getStockExchanges()){
+            boolean liveInMarket = stockExchange.getStocks().size() > 5;
+            stockExchange.setLiveInMarket(liveInMarket);
+        }
+        stockExchangeRepository.saveAll(stock.getStockExchanges());
         stockRepository.deleteById(id);
     }
+
     @Override
     public void updateStockPrice(StockUpdateRequest request) {
-        Stock entity = stockRepository.findById(request.getId()).orElseThrow();
+        Stock entity = stockRepository.findById(request.getId()).orElseThrow(()
+                -> new EntityNotFoundException("Stock not found with id: " + request.getId()));
         entity.setCurrentPrice(request.getPrice());
         stockRepository.save(entity);
     }
