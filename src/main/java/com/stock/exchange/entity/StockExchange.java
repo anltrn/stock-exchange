@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "STOCK_EXCHANGE")
+@Table(name = "STOCK_EXCHANGE", indexes = { @Index(name = "idx_stock_exchange_name", columnList = "name") })
 @AllArgsConstructor
 @NoArgsConstructor
 public class StockExchange {

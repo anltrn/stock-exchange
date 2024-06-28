@@ -8,6 +8,7 @@ import com.stock.exchange.model.StockCreateRequest;
 import com.stock.exchange.model.StockUpdateRequest;
 import com.stock.exchange.service.impl.StockServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,6 +35,7 @@ public class StockServiceImplTest {
     private StockServiceImpl stockService;
 
     @Test
+    @DisplayName("Should delete stock successfully when stock is found")
     public void testDeleteStock_WhenStockFound() {
         Stock stock = new Stock();
         stock.setId(1L);
@@ -52,6 +54,7 @@ public class StockServiceImplTest {
     }
 
     @Test
+    @DisplayName("Should throw EntityNotFoundException when stock is not found")
     public void testDeleteStock_WhenStockNotFound() {
         when(stockRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -64,6 +67,7 @@ public class StockServiceImplTest {
     }
 
     @Test
+    @DisplayName("Should update stock price successfully when stock is found")
     public void testUpdateStockPrice_WhenStockFound() {
         StockUpdateRequest request = new StockUpdateRequest();
         request.setId(1L);
@@ -82,6 +86,7 @@ public class StockServiceImplTest {
     }
 
     @Test
+    @DisplayName("Should throw EntityNotFoundException when stock is not found for update")
     public void testUpdateStockPrice_WhenStockNotFound() {
         StockUpdateRequest request = new StockUpdateRequest();
         request.setId(1L);
@@ -97,6 +102,7 @@ public class StockServiceImplTest {
     }
 
     @Test
+    @DisplayName("Should create stock successfully")
     public void testCreateStock() {
         StockCreateRequest request = new StockCreateRequest();
         request.setName("KOCHL");

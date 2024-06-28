@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "STOCK")
+@Table(name = "STOCK", indexes = {   @Index(name = "idx_stock_name", columnList = "name") })
 @AllArgsConstructor
 @NoArgsConstructor
 public class Stock {
