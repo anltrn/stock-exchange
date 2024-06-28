@@ -15,7 +15,8 @@ public class StockController {
 
     @Autowired
     private StockService stockService;
-    @DeleteMapping(value="/{id}")
+
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteStockById(@PathVariable("id") Long id) {
         stockService.deleteStock(id);
         return new ResponseEntity<>(HttpStatus.OK);

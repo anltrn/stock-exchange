@@ -1,4 +1,4 @@
-package com.stock.exchange;
+package com.stock.exchange.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

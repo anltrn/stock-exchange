@@ -7,6 +7,8 @@ import com.stock.exchange.model.StockUpdateRequest;
 public interface StockService {
 
     void deleteStock(Long id);
+
     void updateStockPrice(StockUpdateRequest request);
+
     Stock createStock(StockCreateRequest request);
 }
