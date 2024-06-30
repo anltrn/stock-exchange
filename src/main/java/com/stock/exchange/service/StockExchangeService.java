@@ -10,5 +10,4 @@ public interface StockExchangeService {
 
     StockExchange getAllStocksByExchangeName(String stockExchangeName);
 
-    StockExchange createStockExchange(StockExchange stockExchange);
 }

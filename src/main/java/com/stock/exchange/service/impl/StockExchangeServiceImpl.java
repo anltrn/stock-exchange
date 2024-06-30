@@ -54,9 +54,4 @@ public class StockExchangeServiceImpl implements StockExchangeService {
                 .orElseThrow(() -> new EntityNotFoundException("StockExchange not found with name: " + stockExchangeName));
         return stockExchange;
     }
-
-    @Override
-    public StockExchange createStockExchange(StockExchange stockExchange) {
-        return stockExchangeRepository.save(stockExchange);
-    }
 }

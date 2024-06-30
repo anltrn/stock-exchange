@@ -45,3 +45,15 @@ http://localhost:8080/h2-console/login.do
 ```
 
 The username and password can be found in the `application.properties` file.
+
+You can find the initial data insertion in the data.sql file located in the resources folder.
+Initially created 3 exchanges with names NYSE, BIST, NASDAQ.
+You can add more exchanges on h2 console or by changing data.sql.
+
+```sql
+INSERT INTO STOCK_EXCHANGE (name, description, live_in_market)
+VALUES ('NYSE', 'New York Stock Exchange', false);
+INSERT INTO STOCK_EXCHANGE ( name, description, live_in_market)
+VALUES ('BIST', 'Borsa istanbul', false);
+INSERT INTO STOCK_EXCHANGE ( name, description, live_in_market)
+VALUES ('NASDAQ', 'Nasdaq', false);
