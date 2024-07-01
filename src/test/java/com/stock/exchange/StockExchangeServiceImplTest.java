@@ -14,23 +14,21 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class StockExchangeServiceImplTest {
-
     @Mock
     private StockExchangeRepository stockExchangeRepository;
-
     @Mock
     private StockRepository stockRepository;
-
     @InjectMocks
     private StockExchangeServiceImpl stockExchangeService;
-
     @Test
     @DisplayName("Should delete stock from exchange successfully when stock and exchange are found")
     public void testDeleteStockFromExchange_WhenStockAndExchangeFound() {
@@ -111,21 +109,4 @@ public class StockExchangeServiceImplTest {
         verify(stockExchangeRepository, times(1)).findByName("DENEME");
     }
 
-    @Test
-    @DisplayName("Should create stock exchange successfully")
-    public void testCreateStockExchange() {
-        StockExchange stockExchange = new StockExchange();
-        stockExchange.setName("BIST");
-        stockExchange.setDescription("Borsa Istanbul");
-
-        when(stockExchangeRepository.save(stockExchange)).thenReturn(stockExchange);
-
-        StockExchange result = stockExchangeService.createStockExchange(stockExchange);
-
-        assertNotNull(result);
-        assertEquals(stockExchange, result);
-
-        // Verify
-        verify(stockExchangeRepository, times(1)).save(stockExchange);
-    }
 }

@@ -37,10 +37,4 @@ public class StockExchangeController {
         StockExchange stockExchange = stockExchangeService.getAllStocksByExchangeName(stockExchangeName);
         return new ResponseEntity<>(stockExchange, HttpStatus.OK);
     }
-
-    @PostMapping
-    public ResponseEntity<StockExchange> createStockExchange(@RequestBody StockExchange stockExchange) {
-        StockExchange createdExchange = stockExchangeService.createStockExchange(stockExchange);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdExchange);
-    }
 }
