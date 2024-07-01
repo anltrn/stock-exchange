@@ -5,7 +5,6 @@ import com.stock.exchange.dao.StockRepository;
 import com.stock.exchange.entity.Stock;
 import com.stock.exchange.entity.StockExchange;
 import com.stock.exchange.model.StockCreateRequest;
-import com.stock.exchange.model.StockUpdateRequest;
 import com.stock.exchange.service.impl.StockServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
@@ -24,13 +23,10 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class StockServiceImplTest {
-
     @Mock
     private StockRepository stockRepository;
-
     @Mock
     private StockExchangeRepository stockExchangeRepository;
-
     @InjectMocks
     private StockServiceImpl stockService;
 
@@ -69,16 +65,12 @@ public class StockServiceImplTest {
     @Test
     @DisplayName("Should update stock price successfully when stock is found")
     public void testUpdateStockPrice_WhenStockFound() {
-        StockUpdateRequest request = new StockUpdateRequest();
-        request.setId(1L);
-        request.setPrice(BigDecimal.valueOf(150.0));
-
         Stock stock = new Stock();
         stock.setId(1L);
 
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
 
-        stockService.updateStockPrice(request);
+        stockService.updateStockPrice(1L, BigDecimal.valueOf(150.0));
 
         // Verify
         verify(stockRepository, times(1)).findById(1L);
@@ -88,13 +80,9 @@ public class StockServiceImplTest {
     @Test
     @DisplayName("Should throw EntityNotFoundException when stock is not found for update")
     public void testUpdateStockPrice_WhenStockNotFound() {
-        StockUpdateRequest request = new StockUpdateRequest();
-        request.setId(1L);
-        request.setPrice(BigDecimal.valueOf(150.0));
-
         when(stockRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> stockService.updateStockPrice(request));
+        assertThrows(EntityNotFoundException.class, () -> stockService.updateStockPrice(1L, BigDecimal.valueOf(150.0)));
 
         // Verify
         verify(stockRepository, times(1)).findById(1L);

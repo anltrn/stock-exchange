@@ -2,7 +2,6 @@ package com.stock.exchange.controller;
 
 import com.stock.exchange.entity.Stock;
 import com.stock.exchange.model.StockCreateRequest;
-import com.stock.exchange.model.StockUpdateRequest;
 import com.stock.exchange.service.StockService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
@@ -11,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/v1/stock")
@@ -26,15 +27,17 @@ public class StockController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping()
-    public ResponseEntity<Void> updateStockPrice(@Valid @RequestBody StockUpdateRequest request) {
-        stockService.updateStockPrice(request);
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<Void> updateStockPrice(@PathVariable("id") @Positive Long id,
+                                                 @RequestParam("price")
+                                                 @Positive(message = "Price should be positive") BigDecimal price) {
+        stockService.updateStockPrice(id, price);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Stock> createStock(@Valid @RequestBody StockCreateRequest request) {
-        return new ResponseEntity<>(stockService.createStock(request), HttpStatus.OK);
+        return new ResponseEntity<>(stockService.createStock(request), HttpStatus.CREATED);
     }
 
 }

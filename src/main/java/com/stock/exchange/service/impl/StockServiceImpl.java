@@ -5,12 +5,13 @@ import com.stock.exchange.dao.StockRepository;
 import com.stock.exchange.entity.Stock;
 import com.stock.exchange.entity.StockExchange;
 import com.stock.exchange.model.StockCreateRequest;
-import com.stock.exchange.model.StockUpdateRequest;
 import com.stock.exchange.service.StockService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 
 @Transactional
@@ -35,10 +36,10 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public void updateStockPrice(StockUpdateRequest request) {
-        Stock entity = stockRepository.findById(request.getId()).orElseThrow(()
-                -> new EntityNotFoundException("Stock not found with id: " + request.getId()));
-        entity.setCurrentPrice(request.getPrice());
+    public void updateStockPrice(Long id, BigDecimal price) {
+        Stock entity = stockRepository.findById(id).orElseThrow(()
+                -> new EntityNotFoundException("Stock not found with id: " + id));
+        entity.setCurrentPrice(price);
         stockRepository.save(entity);
     }
 

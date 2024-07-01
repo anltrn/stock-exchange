@@ -30,3 +30,5 @@ INSERT INTO STOCK_EXCHANGE_STOCK (stock_exchange_id, stock_id)
 VALUES (3, 1);
 INSERT INTO STOCK_EXCHANGE_STOCK (stock_exchange_id, stock_id)
 VALUES (3, 2);
+INSERT INTO USERS (username, email, password)
+VALUES ('user', 'user@gmail.com','$2a$10$9ihmdlfzAkWYcNRyXw53muoJ7oUc2bU0QX21XvB7EsTsC9/xnA.w6');

@@ -1,18 +1,25 @@
 package com.stock.exchange.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,5 +104,54 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException ex) {
+        log.info("Constraint violation:", ex.getMessage());
+        return new ResponseEntity<>(ErrorResponse.builder()
+                .date(LocalDateTime.now())
+                .message("Constraint Violation")
+                .details(List.of(ex.getMessage()))
+                .build(),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    public ResponseEntity<?> handleUsernameNotFoundException(UsernameNotFoundException e) {
+        log.info("User Not Found: {}", e.getMessage());
+        return new ResponseEntity<>(ErrorResponse.builder()
+                .date(LocalDateTime.now())
+                .message("UserName Not Found")
+                .details(List.of(e.getMessage()))
+                .build(),
+                HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({MissingServletRequestParameterException.class})
+    public ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
+        log.info("Parameter Missing:", ex.getMessage());
+        List<String> details = new ArrayList<>();
+        details.add(ex.getParameterName() + " parameter is missing");
+        return new ResponseEntity<>(ErrorResponse.builder()
+                .date(LocalDateTime.now())
+                .message("Missing Parameters")
+                .details(List.of(ex.getMessage()))
+                .build(),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<?> handleCustomException(CustomException ex) {
+        log.info("CustomException occurred: {}", ex.getMessage());
+        return new ResponseEntity<>(ErrorResponse.builder()
+                .date(LocalDateTime.now())
+                .message("CustomException occurred: ")
+                .details(List.of(ex.getMessage()))
+                .build(), ex.getHttpStatus());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public void handleAccessDeniedException(HttpServletResponse res) throws IOException {
+        res.sendError(HttpStatus.FORBIDDEN.value(), "Access denied");
+    }
 }
 
